@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Company</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="static/logonextstep.png" alt="Your Company Logo" class="logo">
+        <div class="nav-buttons">
+            <a class="nav-button" href="/">Pentest</a>
+            <a class="nav-button" href="cve">CVE</a>
+            <a class="nav-button" href="history">History</a>
+        </div>
+    </div>
+    <div class="container">
+        <header>
+            
+            <h1>Pentest</h1>
+        </header>
+
+        <div class="tabs">
+            <div class="tab" onclick="openTab(event, 'zimbra')" id="defaultOpen">Zimbra</div>
+            <div class="tab" onclick="openTab(event, 'exchange')">Microsoft Exchange</div>
+        </div>
+
+        <div id="zimbra" class="form-content active">
+            <h2>Zimbra</h2>
+            <form>
+                <label for="ip">IP Address:</label>
+                <input type="text" id="ip" name="ip" placeholder="Enter IP address" required>
+                <div class="checkbox-group">
+                    <label for="checkbox1"><input type="checkbox" id="checkbox1" name="checkbox1"> Checkbox 1</label>
+                    <label for="checkbox2"><input type="checkbox" id="checkbox2" name="checkbox2"> Checkbox 2</label>
+                    <label for="checkbox3"><input type="checkbox" id="checkbox3" name="checkbox3"> Checkbox 3</label>
+                
+                    <label for="checkbox4"><input type="checkbox" id="checkbox4" name="checkbox4"> Checkbox 4</label>
+                    <label for="checkbox5"><input type="checkbox" id="checkbox5" name="checkbox5"> Checkbox 5</label>
+                    <label for="checkbox6"><input type="checkbox" id="checkbox6" name="checkbox6"> Checkbox 6</label>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="exchange" class="form-content">
+            <h2>Microsoft Exchange</h2>
+            <form>
+                <label for="ip2">IP Address:</label>
+                <input type="text" id="ip2" name="ip2" placeholder="Enter IP address" required> <!-- Different id for Exchange IP -->
+                <div class="checkbox-group">
+                    <label for="checkbox7"><input type="checkbox" id="checkbox7" name="checkbox7"> Checkbox 7</label>
+                    <label for="checkbox8"><input type="checkbox" id="checkbox8" name="checkbox8"> Checkbox 8</label>
+                    <label for="checkbox9"><input type="checkbox" id="checkbox9" name="checkbox9"> Checkbox 9</label>
+                
+                    <label for="checkbox10"><input type="checkbox" id="checkbox10" name="checkbox10"> Checkbox 10</label>
+                    <label for="checkbox11"><input type="checkbox" id="checkbox11" name="checkbox11"> Checkbox 11</label>
+                    <label for="checkbox12"><input type="checkbox" id="checkbox12" name="checkbox12"> Checkbox 12</label>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+</body>
+
+</html>
