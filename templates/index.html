@@ -18,10 +18,7 @@
         </div>
     </div>
     <div class="container">
-        <header>
-            
-            <h1>Pentest</h1>
-        </header>
+        
 
         <div class="tabs">
             <div class="tab" onclick="openTab(event, 'zimbra')" id="defaultOpen">Zimbra</div>
@@ -30,17 +27,23 @@
 
         <div id="zimbra" class="form-content active">
             <h2>Zimbra</h2>
-            <form>
+            <form action="/zimbra-form" method="POST">
                 <label for="ip">IP Address:</label>
-                <input type="text" id="ip" name="ip" placeholder="Enter IP address" required>
+                <input type="text" id="domain" name="domain" placeholder="Domain" required>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" placeholder="Email" required>
+                <input type="text" id="dkim" name="dkim" placeholder="DKIM Selector" >
                 <div class="checkbox-group">
-                    <label for="checkbox1"><input type="checkbox" id="checkbox1" name="checkbox1"> Checkbox 1</label>
-                    <label for="checkbox2"><input type="checkbox" id="checkbox2" name="checkbox2"> Checkbox 2</label>
-                    <label for="checkbox3"><input type="checkbox" id="checkbox3" name="checkbox3"> Checkbox 3</label>
+                    <label for="checkbox1"><input type="checkbox" id="checkbox1" name="check"> Check for SPF/DKIM/DMARC</label>
+                    <label for="checkbox2"><input type="checkbox" id="checkbox2" name="spam"> Mail spam</label>
+                    <label for="checkbox3"><input type="checkbox" id="checkbox3" name="Phishing"> Phishing mail</label>
                 
-                    <label for="checkbox4"><input type="checkbox" id="checkbox4" name="checkbox4"> Checkbox 4</label>
-                    <label for="checkbox5"><input type="checkbox" id="checkbox5" name="checkbox5"> Checkbox 5</label>
-                    <label for="checkbox6"><input type="checkbox" id="checkbox6" name="checkbox6"> Checkbox 6</label>
+                    <label for="checkbox4"><input type="checkbox" id="checkbox4" name="web"> Web authetification bruteforce</label>
+                    <label for="checkbox5"><input type="checkbox" id="checkbox5" name="bruteforce"> Smtp/imap/pop3 bruteforce</label>
+                    <label for="checkbox6"><input type="checkbox" id="checkbox6" name="capabilities"> Check for imap/pop3 capabilities</label>
+                    
+                    <label for="checkbox8"><input type="checkbox" id="checkbox8" name="enumeration"> Smtp/imap/pop3 user enumeration</label>
+                    <label for="checkbox9"><input type="checkbox" id="checkbox9" name="scanner"> Vulnerability scanner</label>
                 </div>
                 <input type="submit" value="Submit">
             </form>
@@ -50,7 +53,7 @@
             <h2>Microsoft Exchange</h2>
             <form>
                 <label for="ip2">IP Address:</label>
-                <input type="text" id="ip2" name="ip2" placeholder="Enter IP address" required> <!-- Different id for Exchange IP -->
+                <input type="text" id="ip2" name="ip2" placeholder="" required> <!-- Different id for Exchange IP -->
                 <div class="checkbox-group">
                     <label for="checkbox7"><input type="checkbox" id="checkbox7" name="checkbox7"> Checkbox 7</label>
                     <label for="checkbox8"><input type="checkbox" id="checkbox8" name="checkbox8"> Checkbox 8</label>

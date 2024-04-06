@@ -3,7 +3,7 @@ import pdfkit
 import os
 import sqlite3
 import re
-from db import create_tables
+#from db import create_tables
 import subprocess
 from datetime import datetime
 import requests
@@ -16,7 +16,7 @@ USERNAME = "amenpfe"
 PASSWORD = "Fafani123;"
 RESULTS_PER_PAGE = 10  # Number of results to display per page
 
-@app.route("/cve")
+@app.route("/cve",methods=['GET'])
 def get_cve_data():
     try:
         page = request.args.get("page", default=1, type=int)
@@ -62,43 +62,81 @@ def before_first_request_func():
 def home2():
     return render_template("history.html")
 
-@app.route('/', methods=['GET'])
-def home():
- 
-    if request.method == 'POST':
-        """
-        ip = request.form.get('ip')
-        port = request.form.get('port')
 
-    
-        output1 = subprocess.check_output(['python3','scripts/magicspoofmail.py', '-d', 'google.com'])
+
+
+@app.route('/zimbra-form',methods=['GET','POST'])
+def zimbra():
+    if request.method == 'POST':
+        outputs=[]
+        domain = request.form.get('domain')
+        email= request.form.get('email')
+        if request.form.get('dkim'):
+            dkim=request.form.get('dkim')
+        if 'spam' in request.form :
+            output = subprocess.check_output(['python3','scripts/spam.py', domain, email])
+            output = output.decode('utf-8').replace('\n', '<br>')
+            output=  ansi_to_html(output)  
+            outputs.append(('Email Spam',output))
+        if 'check' in request.form :
+            output = subprocess.check_output(['python3','scripts/check_domain.py', '-d', domain,'-v'])
+            output = output.decode('utf-8').replace('\n', '<br>')
+            output=  ansi_to_html(output)  
+            outputs.append(('',output))
+        if 'bruteforce' in request.form :
+            output = subprocess.check_output(['python3','scripts/spam.py', '-d', 'google.com'])
+            output = output.decode('utf-8').replace('\n', '<br>')
+            output=  ansi_to_html(output)  
+            outputs.append(('Email Spam',output))
+        if 'capabilities' in request.form :
+            output = subprocess.check_output(['nmap','--script', 'imap-capabilities', '-p','143',domain])
+            output = output.decode('utf-8').replace('\n', '<br>')
+            output += subprocess.check_output(['nmap','--script', 'pop3-capabilities', '-p','110',domain])
+            output=  ansi_to_html(output)  
+            outputs.append(('Imap/pop3 capabilities',output))
+        if 'spoof' in request.form :
+            output = subprocess.check_output(['python3','scripts/magicspoofmail.py', '-d', domain,'-t','-e',email,'-s',domain])
+            output = output.decode('utf-8').replace('\n', '<br>')
+            output=  ansi_to_html(output)  
+            outputs.append(('Imap/pop3 capabilities',output))
+
+
+
+
+
+        #output1 = subprocess.check_output(['python3','scripts/magicspoofmail.py', '-d', 'google.com'])
         # output2 = subprocess.check_output(['python', '', ip, port])
 
         # Execute shell commands
         # output3 = subprocess.check_output(['nmap', '-p', port, ip])
-        output2 = subprocess.check_output(['ping', '-c','4',ip]) 
+        #output2 = subprocess.check_output(['ping', '-c','4',ip]) 
 
         
-        output1 = output1.decode('utf-8').replace('\n', '<br>')
-        output1=ansi_to_html(output1)
-        output2 = output2.decode('utf-8').replace('\n', '<br>')
-        outputs = [
-             ('Output of script 1', output1),
-            # ('Output of script 2', output2),
-            # ('Output of nmap command', output3),
-            ('Output of ping command', output2),
-        ]
+        #output1 = output1.decode('utf-8').replace('\n', '<br>')
+        #output1=ansi_to_html(output1)
+        #output2 = output2.decode('utf-8').replace('\n', '<br>')
+        
         # Generate PDF
         
         current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")  #
-        filename = f'{ip}_{current_time}.pdf'  
+        filename = f'{domain}_{current_time}.pdf'  
         html_output = ''
         for title, output in outputs:
             html_output += f'<h1>{title}</h1><p>{output}</p>'
         pdfkit.from_string(html_output, filename)
 
         return send_file(filename, as_attachment=True)
-"""
+    return render_template('index.html')
+
+
+
+
+
+
+@app.route('/', methods=['GET'])
+def home():
+ 
+    
     return render_template('index.html')
 
 if __name__ == '__main__':
