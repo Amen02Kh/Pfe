@@ -9,6 +9,7 @@ from datetime import datetime
 import requests
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = '/uploads'
 
 #CVE API
 OPENCVE_API_URL = "https://www.opencve.io/api/vendors/zimbra/cve"
@@ -91,14 +92,14 @@ def zimbra():
         if 'capabilities' in request.form :
             output = subprocess.check_output(['nmap','--script', 'imap-capabilities', '-p','143',domain])
             output = output.decode('utf-8').replace('\n', '<br>')
-            output += subprocess.check_output(['nmap','--script', 'pop3-capabilities', '-p','110',domain])
+            output += subprocess.check_output(['nmap','--script', 'pop3-capabilities', '-p','110',domain]).decode().replace('\n', '<br>')
             output=  ansi_to_html(output)  
             outputs.append(('Imap/pop3 capabilities',output))
         if 'spoof' in request.form :
             output = subprocess.check_output(['python3','scripts/magicspoofmail.py', '-d', domain,'-t','-e',email,'-s',domain])
             output = output.decode('utf-8').replace('\n', '<br>')
             output=  ansi_to_html(output)  
-            outputs.append(('Imap/pop3 capabilities',output))
+            outputs.append(('Spoof',output))
 
 
 

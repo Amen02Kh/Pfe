@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(145deg, #11017a, #1c8ca3);
+        background-size: 400% 400%;
+        animation: gradientBG 6s ease infinite;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .container {
+        width: 500px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    .logo img {
+        width: 120px;
+        height: auto;
+        margin-bottom: 24px;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: #23a6d5;
+        outline: none;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 15px;
+        background-color: #23a6d5;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #209cb5;
+    }
+
+    .remember-me {
+        display: flex;
+        align-items: center;
+        
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .remember-me input[type="checkbox"] {
+        -webkit-appearance: none;
+        appearance: none;
+        
+        margin: 0;
+        font: inherit;
+        color: #5390d9;
+        width: 2em;
+        height: 2em;
+        border: 1px solid #5390d9;
+        border-radius: 4px;
+        transform: translateY(-0.075em);
+        display: grid;
+        place-content: center;
+        margin-right: 5%;
+    }
+
+    .remember-me input[type="checkbox"]::before {
+        content: "";
+        width: 1em;
+        height: 1em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em #5390d9;
+        transform-origin: bottom left;
+        clip-path: polygon(14% 44%, 50% 80%, 86% 44%, 50% 44%);
+    }
+
+    .remember-me input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+
+    .remember-me label {
+        cursor: pointer;
+    }
+
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .forgot-password a {
+        color: #5390d9;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .forgot-password a:hover {
+        color: #6bafe4;
+        text-decoration: underline;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="logonextstep.png" alt="Logo">
+            <h1>Welcome!</h1>
+        </div>
+        <form id="login-form">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" value="name@mail.com" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <div class="remember-me">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me">Remember me</label>
+            </div>
+            <button type="submit">Login</button>
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+        </form>
+        
+    </div>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+           
+        });
+    </script>
+</body>
+</html>
+
+
+

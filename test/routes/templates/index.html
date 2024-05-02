@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Company</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+    <style>
+        /* Adjustments for full-width form */
+        .container {
+            width: 100%;
+            
+        }
+
+        .form-content {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <img src="static/logonextstep.png" alt="Your Company Logo" class="logo">
+        <div class="nav-buttons">
+            <a class="nav-button" href="/">Pentest</a>
+            <a class="nav-button" href="cve">CVE</a>
+            <a class="nav-button" href="history">History</a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab" onclick="openTab(event, 'zimbra')" id="defaultOpen">Zimbra</div>
+            <div class="tab" onclick="openTab(event, 'exchange')">Microsoft Exchange</div>
+        </div>
+        <div id="zimbra" class="form-content active">
+            <form action="/zimbra-form" method="POST">
+                <form action="/zimbra-form" method="POST">
+                    <input type="text" name="domain" placeholder="Target domain" required>
+                    <input id="email" type="text" name="email" placeholder="Email" style="display: none;">
+                    <input type="text" name="dkim" placeholder="DKIM Selector" style="display: none;">
+                    <div class="checkbox-group">
+                        <label for="checkbox1"><input type="checkbox" id="checkbox1" name="check"> Check for SPF/DKIM/DMARC</label>
+                        <label for="spam"><input type="checkbox" id="spam" name="spam"> Mail spam</label>
+                        <label for="checkbox4"><input type="checkbox" id="checkbox4" name="web"> Web authentication brute force</label>
+                        <label for="checkbox5"><input type="checkbox" id="checkbox5" name="bruteforce"> SMTP/IMAP/POP3 brute force</label>
+                        <label for="checkbox6"><input type="checkbox" id="checkbox6" name="capabilities"> Check for IMAP/POP3 capabilities</label>
+                        <label for="checkbox8"><input type="checkbox" id="checkbox8" name="enumeration"> SMTP/IMAP/POP3 user enumeration</label>
+                        <label for="checkbox9"><input type="checkbox" id="scanner" name="scanner"> Vulnerability scanner</label>
+                        <input id="domain" type="text" name="domain" placeholder="Domain to scan"style="display: none;">
+                        <div class="mb-3">
+                            <label for="usernamesWordlist" class="form-label">Usernames wordlist</label>
+                            <input class="form-control form-control-sm" id="usernamesWordlist" type="file">
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordsWordlist" class="form-label">Passwords wordlist</label>
+                            <input class="form-control form-control-sm" id="passwordsWordlist" type="file">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="antispam" class="form-content">
+            <form action="/andtispam" method="POST">
+                
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(145deg, #11017a, #1c8ca3);
+            background-size: 400% 400%;
+            animation: gradientBG 6s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 500px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        input[type="email"], input[type="password"], .form-control {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus, .form-control:focus {
+            border-color: #23a6d5;
+            outline: none;
+        }
+
+        button[type="submit"], .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #23a6d5;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover, .btn:hover {
+            background-color: #209cb5;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #5390d9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #6bafe4;
+            text-decoration: underline;
+        }
+        .flash-messages .success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.flash-messages .error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logonextstep.png') }}" alt="Logo">
+            <h1>Welcome!</h1>
+        </div>
+        <form id="login-form" action="{{ url_for('login.login') }}" method="post">
+            {{ form.hidden_tag() }}
+            
+            {{ form.email(class_="form-control", id="email", placeholder="Enter email") }}
+            {% for error in form.email.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+
+            
+            {{ form.password(class_="form-control", id="password", placeholder="Enter password") }}
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

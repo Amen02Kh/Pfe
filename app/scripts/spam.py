@@ -2,7 +2,7 @@ import random
 import smtplib
 import argparse
 from email.mime.text import MIMEText
-
+'''
 # Create the parser
 parser = argparse.ArgumentParser(description='Send emails from the terminal')
 
@@ -16,21 +16,24 @@ parser.add_argument('SMTP_Password', metavar='smtp_password', type=str, help='th
 args = parser.parse_args()
 
 # Specifying sender and receivers
-sender = 'test@example.com'
+sender = 'khamen.02@gmail.com'
 receiver = args.Receiver
 domain=args.Domain
 # Specifying smtp port
-port = 587
 
+'''
+
+port = 587
 # Specifying Smtp Address and Connecting to the server
-with smtplib.SMTP(domain, port) as server:
+with smtplib.SMTP('smtp.gmail.com', port) as server:
     for i in range(20):  # You can change the value inside the range to the number of emails you wanna send
         randnum = random.randint(0, 999)  # Generating random number
         msg = MIMEText(f'this is the body of the email')  # Body of the email
         msg['Subject'] = 'Subject of the email'  # Subject Of the email
         # From of email again but i'm adding random number between so that in the inbox it stacks causing to flood the inbox
         msg['From'] = f'from{randnum}@example.com'
-        msg['To'] = receiver# To email again
-        #server.login(args.SMTP_Username, args.SMTP_Password) # SMTP Credentials
-        server.sendmail(sender, receiver, msg.as_string()) # Composing the email
+        msg['To'] = 'amenkh150@gmail.com'# To email again
+        server.starttls()
+        server.login('khamen.02@gmail.com', 'Fafani12345;') # SMTP Credentials
+        server.sendmail('khamen.02@gmail.com', 'amenkh150@gmail.com', msg.as_string()) # Composing the email
     print("Successfully sent 20 email") # Printing Success Msg

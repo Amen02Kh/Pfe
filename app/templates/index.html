@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+
+{% block title %}Pentest{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    .tabbed-form {
+        margin-top: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-buttons {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .tab-button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        background: #e6f1ff;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        outline: none;
+        border-bottom: 3px solid transparent;
+    }
+
+    .tab-button.active,
+    .tab-button:hover {
+        background: #b2d4ff;
+        border-bottom: 3px solid #6699ff;
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .form-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr; /* Allocate more space to inputs */
+        gap: 20px;
+    }
+
+    .input-group {
+        display: grid;
+        grid-gap: 10px;
+    }
+
+    .checkbox-group {
+        display: grid;
+        grid-gap: 10px;
+    }
+
+    input[type="text"], input[type="file"],input[type="password"], textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #b2d4ff;
+        border-radius: 4px;
+    }
+
+    .file-upload {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .file-upload label {
+        background: #f8f9fa;
+        color: #333;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: 1px solid #b2d4ff;
+        border-radius: 4px;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .file-name {
+        margin-left: 10px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    textarea {
+        resize: vertical;
+        height: 150px; /* Set a fixed height for the textarea */
+    }
+
+    .form-submit {
+        width: 100%; /* Set the width of the button */
+        margin: 20px auto; /* Center the button */
+        background: #6699ff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+    }
+
+    .form-submit:hover {
+        background: #4d88ff;
+    }
+
+    /* Custom checkbox styling */
+    .custom-checkbox {
+        position: relative;
+        padding-left: 30px;
+        cursor: pointer;
+        display: block;
+        font-size: 16px;
+        user-select: none; /* prevent text selection */
+    }
+
+    .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .custom-checkbox .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+        border-radius: 4px;
+        border: 1px solid #dcdcdc;
+    }
+
+    .custom-checkbox:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    .custom-checkbox input:checked ~ .checkmark {
+        background-color: #6699ff;
+    }
+
+    .custom-checkbox .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .custom-checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .custom-checkbox .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+    .input-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .input-pair input{
+        margin-bottom: 1%;
+    }
+</style>
+
+<div class="title">
+    <h1>Pentest</h1>
+</div>
+<div class="tabbed-form">
+    <div class="tab-buttons">
+        <button class="tab-button active" data-tab-target="#zimbra">Zimbra</button>
+        <button class="tab-button" data-tab-target="#antispam">Antispam</button>
+    </div>
+    <div id="zimbra" class="tab-content active">
+        <form action="/zimbra-form" method="POST">
+            <div class="form-container">
+                <div class="input-group">
+
+                    <div id="smtpDomainInput" >
+                        <input type="text" id="smtpDomain" name="smtpDomain" placeholder="Enter MailServer Domain">
+                    </div>
+                    <div id="domainInput">
+                        <input type="text" id="domain" name="domain" placeholder="Enter target domain">
+                    </div>
+                    <div id="emailInput">
+                        <input type="text" id="email" name="email" placeholder="Enter email">
+                    </div>
+                    <div id="dkimInput">
+                        <input type="text" id="dkim" name="dkim" placeholder="Enter DKIM Selector">
+                    </div>
+                   
+                    <div class="input-pair" id="userPassInput" style="display: none;">
+                        <input type="text" id="username" name="username" placeholder="Enter username">
+                        <input type="password" id="password" name="password" placeholder="Enter password">
+                    </div>
+                    <div class="file-upload" id="file-upload1" style="display: none;">
+                        <label for="usernamesWordlist">Choose Usernames Wordlist File
+                            <input type="file" id="usernamesWordlist" name="usernamesWordlist">
+                            <span class="file-name"></span>
+                        </label>
+                    </div>
+                    <div class="file-upload" id="file-upload2" style="display: none;">
+                        <label for="passwordsWordlist">Choose Passwords Wordlist File
+                            <input type="file" id="passwordsWordlist" name="passwordsWordlist" >
+                            <span class="file-name"></span>
+                        </label>
+                    </div>
+                    <textarea id="additionalInfo" name="exampleFormControlTextarea1" placeholder="Type wordlist format {user:pass}" style="display: none;"></textarea>
+                </div>
+                <div class="checkbox-group">
+                    <label class="custom-checkbox">Check for SPF/DKIM/DMARC
+                        <input type="checkbox" id="spfDkimDmarc">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">Mail spam
+                        <input type="checkbox" id="mailSpam">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">Web authentication brute force
+                        <input type="checkbox" id="webAuth">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">SMTP/IMAP/POP3 brute force
+                        <input type="checkbox" id="bruteForce">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">Check for IMAP/POP3 capabilities
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">SMTP/IMAP/POP3 user enumeration
+                        <input type="checkbox" id="userEnumeration">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">Vulnerability scanner
+                        <input type="checkbox" id="vulnerabilityScanner">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">Internal spoof
+                        <input type="checkbox" id="internalSpoof">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="form-submit">Submit Zimbra Form</button>
+        </form>
+    </div>
+    <div id="antispam" class="tab-content">
+        <form action="/antispam" method="POST">
+            <!-- Antispam form fields and submit button -->
+        </form>
+    </div>
+</div>
+
+<script>
+ 
+    // Initial element setup
+    function setupInitialVisibility() {
+        const config = [
+            { checkbox: 'mailSpam', elements: ['emailInput'] },
+            { checkbox: 'spfDkimDmarc', elements: ['dkimInput'] },
+            { checkbox: 'vulnerabilityScanner', elements: ['domainInput'] },
+            { checkbox: 'internalSpoof', elements: ['userPassInput'] },
+            { checkbox: 'webAuth', elements: ['file-upload1', 'file-upload2', 'additionalInfo'] },
+            { checkbox: 'bruteForce', elements: ['file-upload1', 'file-upload2', 'additionalInfo'] },
+            { checkbox: 'userEnumeration', elements: ['file-upload1', 'file-upload2', 'additionalInfo'] }
+        ];
+
+        config.forEach(({ checkbox, elements }) => {
+            const checkboxEl = document.getElementById(checkbox);
+            elements.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                checkboxEl.addEventListener('change', () => {
+                    element.style.display = checkboxEl.checked ? 'block' : 'none';
+                    const inputs = element.querySelectorAll('input, textarea');
+                    inputs.forEach(input => input.required = checkboxEl.checked);
+                });
+                element.style.display = checkboxEl.checked ? 'block' : 'none'; // Initialize
+                const inputs = element.querySelectorAll('input, textarea');
+                inputs.forEach(input => input.required = checkboxEl.checked); // Set required state
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', setupInitialVisibility);
+
+    var tabs = document.querySelectorAll('.tab-buttons button');
+    var tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tabContents.forEach(function(content) { content.classList.remove('active'); });
+
+            var target = this.getAttribute('data-tab-target');
+            var targetContent = document.querySelector(target);
+            this.classList.add('active');
+            targetContent.classList.add('active');
+        });
+    });
+</script>
+{% endblock %}
