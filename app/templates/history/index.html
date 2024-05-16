@@ -12,6 +12,7 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        width: 120px;
         transition: background-color 0.3s;
     }
 
@@ -42,7 +43,20 @@
     th {
         background-color: #f2f2f2;
     }
+    .delete-btn{
+        padding: 10px 20px;
+        background-color: #c01f06;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 120px;
 
+    }
+    .delete-btn:hover {
+        background-color: #db1106;
+    }
 </style>
 <div class="title">
     <h1>History</h1>
@@ -55,19 +69,25 @@
                 <th>Date</th>
                 <th>Domain</th>
                 <th>Analyst</th>
-                <th>Download</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
+            {% for rep in reps %}
             <tr>
-                <td>2024-04-01</td>
-                <td>example.com</td>
-                <td>Mark Otto</td>
+                <td>{{rep.date.strftime("%Y-%m-%d")}}</td>
+                <td>{{rep.name}}</td>
+                <td>{{rep.analyst}}</td>
                 <td>
-                    <button class="btn download-btn">Download</button>
+                    <form action="{{ url_for('history.download_rep', rep_id=rep.id) }}" method="POST">
+                    <button type="submit" class="btn download-btn">Download</button>
+                </form>
+                <form action="{{ url_for('history.delete_rep', rep_id=rep.id) }}" method="POST">
+                <button type="submit" class="delete-btn">Delete</button>
+                </form>
                 </td>
             </tr>
-            <!-- Additional rows can be dynamically inserted here -->
+            {% endfor %}
         </tbody>
     </table>
 </div>

@@ -14,7 +14,7 @@ def create_app(config_class=Config):
     # Register blueprints here
     from app.login import bp as login_bp
     app.register_blueprint(login_bp)
-
+    
     
     from app.main import bp as main_bp
     app.register_blueprint(main_bp,url_prefix='/pentest')

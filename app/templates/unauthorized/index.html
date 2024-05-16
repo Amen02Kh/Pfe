@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Unauthorized{% endblock %}
+
+{% block content %}
+<style>
+.image-container{
+    background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 85vh;
+        margin: 20px auto;
+        display: flex;  /* Use flexbox to align children */
+    justify-content: center;  /* Center horizontally */
+    align-items: center;  /* Center vertically */
+    overflow: hidden;  /* In case the image is too large */
+      /* Or any fixed height as per your design requirement */
+}
+img{
+      /* Limits image height to the container's height */
+    display: block;  /
+    
+}
+</style>
+<div class="image-container">
+
+
+    <img src="{{ url_for('static', filename='error_401.jpg') }}" alt="Access Denied" class="center-image">
+</div>
+
+{% endblock %}

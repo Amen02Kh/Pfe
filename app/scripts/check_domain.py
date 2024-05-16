@@ -1,9 +1,3 @@
-"""
-Autor: Matias Ortiz.
-Contact: matias.ortiz@bvstv.com
-Date: 21/02/2021
-Version 3
-"""
 
 import dns.resolver
 from argparse import ArgumentParser
@@ -80,7 +74,6 @@ def check(domain, selector_dkim=None, selector_bimi=None):
         manual_selector (str, optional): Selector for DKIM checks. Defaults to None.
         selector_bimi (str, optional): Selector for BIMI checks. Defaults to None.
     """
-    print("=" * 50)
 
     selector = domain.split(".")
 

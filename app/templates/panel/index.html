@@ -17,14 +17,12 @@
         </form>
         <h3>Existing Users</h3>
         <div class="table-container">
-   
             <table id="myTable">
                 <thead>
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Action</th>
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -33,9 +31,10 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
                         <td>
-                            <form action="{{ url_for('panel.delete_user', user_id=user.id) }}" method="post">
+                            <form action="{{ url_for('panel.delete_user', user_id=user.id) }}" method="post" style="display: inline-block;">
                                 <button type="submit" class="delete-btn">Delete</button>
                             </form>
+                            <button type="button" class="update-btn" onclick="openModal('{{ user.id }}', '{{ user.username }}', '{{ user.email }}')">Update</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -44,8 +43,34 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="updateModal" style="display:none;">
+    <form action="{{ url_for('panel.update_user') }}" method="post">
+        <input type="hidden" name="user_id" id="modalUserId">
+        <input type="text" name="username" id="modalUsername" placeholder="Username">
+        <input type="email" name="email" id="modalEmail" placeholder="Email">
+        <input type="password" name="password" id="modalPassword" placeholder="Password">
+        <button type="submit" class="modal-submit-btn">Update</button>
+    </form>
+    <button onclick="closeModal()" class="modal-close-btn">Close</button>
+</div>
+
+<script>
+    function openModal(userId, username, email) {
+        document.getElementById('modalUserId').value = userId;
+        document.getElementById('modalUsername').value = username;
+        document.getElementById('modalEmail').value = email;
+        document.getElementById('updateModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('updateModal').style.display = 'none';
+    }
+</script>
+
 <style>
-    .panel-container {
+   .panel-container {
         background: white;
         padding: 20px;
         border-radius: 8px;
@@ -145,6 +170,52 @@
 
     th {
         background-color: #f2f2f2;
+    }
+    .update-btn {
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .update-btn:hover {
+        background-color: #0056b3;
+    }
+    #updateModal {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        z-index: 1000;
+        display: none;
+    }
+    .modal-submit-btn, .modal-close-btn {
+        padding: 10px 20px;
+        
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .modal-close-btn {
+        background-color: #f44336;
+    }
+    .modal-close-btn:hover {
+        background-color: #d32f2f;
+    }
+    .modal-submit-btn {
+        background-color: #4caf50;
+    }
+    .modal-submit-btn:hover {
+        background-color: #45a049;
     }
 </style>
 {% endblock %}

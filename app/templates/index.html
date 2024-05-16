@@ -187,7 +187,7 @@
         <button class="tab-button" data-tab-target="#antispam">Antispam</button>
     </div>
     <div id="zimbra" class="tab-content active">
-        <form action="/zimbra-form" method="POST">
+        <form action="{{ url_for('main.zimbra') }}" method="POST" enctype="multipart/form-data">
             <div class="form-container">
                 <div class="input-group">
 
@@ -195,7 +195,7 @@
                         <input type="text" id="smtpDomain" name="smtpDomain" placeholder="Enter MailServer Domain">
                     </div>
                     <div id="domainInput">
-                        <input type="text" id="domain" name="domain" placeholder="Enter target domain">
+                        <input type="text" id="domain" name="targetdomain" placeholder="Enter target domain">
                     </div>
                     <div id="emailInput">
                         <input type="text" id="email" name="email" placeholder="Enter email">
@@ -220,39 +220,43 @@
                             <span class="file-name"></span>
                         </label>
                     </div>
-                    <textarea id="additionalInfo" name="exampleFormControlTextarea1" placeholder="Type wordlist format {user:pass}" style="display: none;"></textarea>
+                    <textarea id="additionalInfo" name="inputwordlist" placeholder="Type wordlist format {user:pass}" style="display: none;"></textarea>
                 </div>
                 <div class="checkbox-group">
                     <label class="custom-checkbox">Check for SPF/DKIM/DMARC
-                        <input type="checkbox" id="spfDkimDmarc">
+                        <input type="checkbox" id="spfDkimDmarc" name="spfDkimDmarc">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="custom-checkbox">Mail spam
-                        <input type="checkbox" id="mailSpam">
+                    <label class="custom-checkbox">Mail spam/spoof
+                        <input type="checkbox" id="mailSpam" name="spam">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">Web authentication brute force
-                        <input type="checkbox" id="webAuth">
+                        <input type="checkbox" id="webAuth" name="webAuth">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">SMTP/IMAP/POP3 brute force
-                        <input type="checkbox" id="bruteForce">
+                        <input type="checkbox" id="bruteForce" name="bruteForce">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">Check for IMAP/POP3 capabilities
-                        <input type="checkbox">
+                        <input type="checkbox" name="capabilities">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">SMTP/IMAP/POP3 user enumeration
-                        <input type="checkbox" id="userEnumeration">
+                        <input type="checkbox" id="userEnumeration" name="enumeration">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">Vulnerability scanner
-                        <input type="checkbox" id="vulnerabilityScanner">
+                        <input type="checkbox" id="vulnerabilityScanner" name="scanner">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">Internal spoof
-                        <input type="checkbox" id="internalSpoof">
+                        <input type="checkbox" id="internalSpoof" name="internal">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="custom-checkbox">SMTP Open Relay
+                        <input type="checkbox" id="relay" name="relay">
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -288,11 +292,11 @@
                 checkboxEl.addEventListener('change', () => {
                     element.style.display = checkboxEl.checked ? 'block' : 'none';
                     const inputs = element.querySelectorAll('input, textarea');
-                    inputs.forEach(input => input.required = checkboxEl.checked);
+                    
                 });
                 element.style.display = checkboxEl.checked ? 'block' : 'none'; // Initialize
                 const inputs = element.querySelectorAll('input, textarea');
-                inputs.forEach(input => input.required = checkboxEl.checked); // Set required state
+                
             });
         });
     }
