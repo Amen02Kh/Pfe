@@ -1,5 +1,4 @@
 from flask import Flask
-
 from config import Config
 from app.extensions import db
 from app.models.users import login_manager
@@ -7,7 +6,7 @@ from app.models.users import login_manager
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    
     # Initialize Flask extensions here
     db.init_app(app)
     login_manager.init_app(app)
@@ -30,8 +29,6 @@ def create_app(config_class=Config):
     from app.logout import bp as logout_bp
     app.register_blueprint(logout_bp, url_prefix='/logout')
 
-    @app.route('/test/')
-    def test_page():
-        return '<h1>Testing the Flask Application Factory Pattern</h1>'
+    
 
     return app

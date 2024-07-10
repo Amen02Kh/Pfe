@@ -14,3 +14,5 @@ datetime
 werkzeug
 flask_wtf
 email_validator
+flask-socketio
+eventlet

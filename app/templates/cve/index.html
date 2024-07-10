@@ -45,6 +45,7 @@
                 <th>Summary</th>
                 <th>Created At</th>
                 <th>Upadted At</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -54,6 +55,9 @@
                 <td>{{ cve_entry["summary"] }}</td>
                 <td>{{ cve_entry["created_at"] }}</td>
                 <td>{{ cve_entry["updated_at"] }}</td>
+                {% if cve_entry['has_executable'] %}
+                 <td><a href="{{ url_for('cve.execute_cve', cve_id=cve_entry['id']) }}" class="btn btn-success">Run Exploit</a></td>
+                 {% endif %}
             </tr>
             {% endfor %}
         </tbody>

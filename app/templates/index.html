@@ -176,11 +176,18 @@
     .input-pair input{
         margin-bottom: 1%;
     }
+    
+.alert-error {
+    font-size: 26px;
+    color: red;
+    text-align: center;
+}
 </style>
 
 <div class="title">
     <h1>Pentest</h1>
 </div>
+
 <div class="tabbed-form">
     <div class="tab-buttons">
         <button class="tab-button active" data-tab-target="#zimbra">Zimbra</button>
@@ -196,6 +203,9 @@
                     </div>
                     <div id="domainInput">
                         <input type="text" id="domain" name="targetdomain" placeholder="Enter target domain">
+                    </div>
+                    <div id="portInput">
+                        <input type="text" id="port" name="port" placeholder="Enter Port Range">
                     </div>
                     <div id="emailInput">
                         <input type="text" id="email" name="email" placeholder="Enter email">
@@ -236,7 +246,7 @@
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">SMTP/IMAP/POP3 brute force
-                        <input type="checkbox" id="bruteForce" name="bruteForce">
+                        <input type="checkbox" id="bruteforce" name="protbruteforce">
                         <span class="checkmark"></span>
                     </label>
                     <label class="custom-checkbox">Check for IMAP/POP3 capabilities
@@ -261,7 +271,7 @@
                     </label>
                 </div>
             </div>
-            <button type="submit" class="form-submit">Submit Zimbra Form</button>
+            <button type="submit" class="form-submit">Run Tests</button>
         </form>
     </div>
     <div id="antispam" class="tab-content">
@@ -272,33 +282,46 @@
 </div>
 
 <script>
- 
     // Initial element setup
     function setupInitialVisibility() {
         const config = [
             { checkbox: 'mailSpam', elements: ['emailInput'] },
             { checkbox: 'spfDkimDmarc', elements: ['dkimInput'] },
-            { checkbox: 'vulnerabilityScanner', elements: ['domainInput'] },
-            { checkbox: 'internalSpoof', elements: ['userPassInput'] },
-            { checkbox: 'webAuth', elements: ['file-upload1', 'file-upload2', 'additionalInfo'] },
-            { checkbox: 'bruteForce', elements: ['file-upload1', 'file-upload2', 'additionalInfo'] },
+            { checkbox: 'vulnerabilityScanner', elements: ['domainInput','portInput'] },
+            { checkbox: 'internalSpoof', elements: ['userPassInput', 'emailInput', 'domainInput'] },
+            { checkbox: 'webAuth', elements: ['file-upload1', 'file-upload2', 'additionalInfo', 'domainInput'] },
+            { checkbox: 'bruteForce', elements: ['file-upload1', 'file-upload2', 'additionalInfo', 'domainInput'] },
             { checkbox: 'userEnumeration', elements: ['file-upload1', 'file-upload2', 'additionalInfo'] }
         ];
 
-        config.forEach(({ checkbox, elements }) => {
-            const checkboxEl = document.getElementById(checkbox);
-            elements.forEach(elementId => {
-                const element = document.getElementById(elementId);
-                checkboxEl.addEventListener('change', () => {
-                    element.style.display = checkboxEl.checked ? 'block' : 'none';
-                    const inputs = element.querySelectorAll('input, textarea');
-                    
+        function updateElementVisibility() {
+            const allCheckboxElements = config.reduce((acc, { elements }) => {
+                elements.forEach(el => {
+                    acc[el] = acc[el] || [];
+                    acc[el].push(document.getElementById(el));
                 });
-                element.style.display = checkboxEl.checked ? 'block' : 'none'; // Initialize
-                const inputs = element.querySelectorAll('input, textarea');
-                
+                return acc;
+            }, {});
+
+            config.forEach(({ checkbox, elements }) => {
+                const checkboxEl = document.getElementById(checkbox);
+                elements.forEach(elementId => {
+                    const element = document.getElementById(elementId);
+                    const shouldDisplay = Array.from(document.querySelectorAll('input[type="checkbox"]'))
+                        .filter(checkbox => checkbox.checked && config.find(c => c.elements.includes(elementId) && c.checkbox === checkbox.id))
+                        .length > 0;
+                    
+                    element.style.display = shouldDisplay ? 'block' : 'none';
+                });
             });
+        }
+
+        config.forEach(({ checkbox }) => {
+            const checkboxEl = document.getElementById(checkbox);
+            checkboxEl.addEventListener('change', updateElementVisibility);
         });
+
+        updateElementVisibility();  // Initial call to set visibility based on checkboxes state
     }
 
     document.addEventListener('DOMContentLoaded', setupInitialVisibility);
@@ -318,4 +341,5 @@
         });
     });
 </script>
+
 {% endblock %}
